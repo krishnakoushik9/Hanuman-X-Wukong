@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Evolution of Hanuman into Wukong</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.158.0/three.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Noto+Sans+Devanagari:wght@400;700&display=swap');
+
+        :root {
+            --nav-height: 80px;
+            --color-primary: #D4AF37;
+            --color-secondary: #8B0000;
+            --color-accent: #4169E1;
+            --color-divine: #FFD700;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Noto Serif', serif;
+            line-height: 1.6;
+            scroll-padding-top: var(--nav-height);
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: var(--nav-height);
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .nav-links {
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            padding: 0 1rem;
+        }
+
+        .nav-link {
+            color: var(--color-divine);
+            text-decoration: none;
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: 1.2rem;
+            padding: 0.5rem 1rem;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .nav-link:hover {
+            color: #fff;
+            text-shadow: 0 0 10px var(--color-divine);
+            transform: translateY(-2px);
+        }
+
+        #home {
+            height: 100vh;
+            position: relative;
+            background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+        }
+
+        section {
+            padding: calc(var(--nav-height) + 2rem) 2rem 4rem;
+            background: linear-gradient(to bottom, #000, #1a1a1a);
+            position: relative;
+        }
+
+        .hero-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero-title {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: var(--color-divine);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .content-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .chapter {
+            margin-bottom: 4rem;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            transform: translateY(50px);
+            opacity: 0;
+        }
+
+        .chapter.visible {
+            transform: translateY(0);
+            opacity: 1;
+            transition: all 1s ease;
+        }
+
+        .chapter-title {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--color-divine);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .chapter-subtitle {
+            font-family: 'Cinzel Decorative', cursive;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            color: var(--color-divine);
+            margin: 2rem 0 1rem;
+            opacity: 0.9;
+        }
+
+        .sanskrit-verse {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--color-divine);
+            margin: 2rem 0;
+            padding: 2rem;
+            background: rgba(255, 215, 0, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+        }
+
+        .verse-translation {
+            font-style: italic;
+            color: #fff;
+            font-size: 1rem;
+            margin-top: 1rem;
+            opacity: 0.8;
+        }
+
+        .chapter-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #fff;
+            margin: 1.5rem 0;
+        }
+
+        .gallery {
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .gallery-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 2rem auto;
+            height: 600px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .gallery-image.active {
+            opacity: 1;
+        }
+
+        .gallery-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: var(--color-divine);
+            font-size: 2rem;
+            padding: 1rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-btn:hover {
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        .gallery-btn.prev {
+            left: 0;
+        }
+
+        .gallery-btn.next {
+            right: 0;
+        }
+
+        .weapons-list {
+            margin: 2rem 0;
+        }
+
+        .weapon-item {
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(255, 215, 0, 0.05);
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .nav-link {
+                font-size: 1rem;
+                padding: 0.3rem 0.8rem;
+            }
+
+            section {
+                padding: calc(var(--nav-height) + 1rem) 1rem 2rem;
+            }
+
+            .chapter {
+                padding: 1rem;
+            }
+
+            .gallery-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="nav-links">
+            <a href="#home" class="nav-link">Home</a>
+            <a href="#prologue" class="nav-link">Prologue</a>
+            <a href="#conflict" class="nav-link">Conflict</a>
+            <a href="#journey" class="nav-link">Journey</a>
+            <a href="#combat" class="nav-link">Combat</a>
+            <a href="#climax" class="nav-link">Climax</a>
+            <a href="#epilogue" class="nav-link">Epilogue</a>
+            <a href="#gallery" class="nav-link">Gallery</a>
+        </div>
+    </nav>
+
+    <section id="home">
+        <canvas class="hero-canvas"></canvas>
+        <div class="hero-content">
+            <h1 class="hero-title">The Evolution of Hanuman into Wukong</h1>
+            <p class="hero-subtitle">An Epic Tale of Divine Legacy</p>
+        </div>
+    </section>
+
+    <div class="content-wrapper">
+        <section id="prologue">
+            <div class="chapter">
+                <h2 class="chapter-title">I. Prologue: The Divine Protector</h2>
+                <p class="chapter-text">
+                    The game opens in a secluded Himalayan temple where Amitav, a devoted monk, stumbles upon an ancient manuscript. 
+                    Illuminated by the glow of an eternal flame, he reads the verses carved into stone:
+                </p>
+                <div class="sanskrit-verse">
+                    सुग्रीवसचिवो धीमान् हनूमान्मारुतात्मजः।<br>
+                    पिङ्गाक्षो महाबाहुः पञ्चशैलसमनिभः॥
+                    <div class="verse-translation">
+                        ("The wise and valorous Hanuman, son of the wind god, Sugriva's loyal minister, strong and radiant like five mighty mountains.")
+                    </div>
+                </div>
+                <p class="chapter-text">
+                    The scene transitions to Hanuman, a silent guardian of Dharma, observing humanity. Though invisible to mortals, 
+                    his divine energy inspires visions in Amitav, urging him to spread the story of this mighty vanara. 
+                    Amitav is guided by the eternal truth of the Bhagavad Gita:
+                </p>
+                <div class="sanskrit-verse">
+                    यदा यदा हि धर्मस्य ग्लानिर्भवति भारत।<br>
+                    अभ्युत्थानम् अधर्मस्य तदात्मानं सृजाम्यहम्॥
+                    <div class="verse-translation">
+                        ("Whenever righteousness wanes and unrighteousness rises, I manifest myself.")
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="conflict">
+            <div class="chapter">
+                <h2 class="chapter-title">II. Rising Conflict: Hanuman vs. Wukong</h2>
+                <h3 class="chapter-subtitle">The Monk's Adaptation</h3>
+                <p class="chapter-text">
+                    Traveling to China, Amitav seeks to share Hanuman's tale. To appeal to the local audience, he focuses on Hanuman's strength 
+                    and intellect but omits key aspects of his devotion. Over centuries, this adaptation evolves, transforming Hanuman into 
+                    the mischievous and rebellious Sun Wukong. This divergence erases his connection to Lord Rama.
+                </p>
+                
+                <h3 class="chapter-subtitle">Kuruomashi's Manipulations</h3>
+                <p class="chapter-text">
+                    The celestial demon Kuruomashi exploits this divergence, twisting Hanuman's legacy to sow discord between cultures. 
+                    Kuruomashi spreads the idea that Wukong is an original creation, aiming to erase the divine roots of Hanuman from history.
+                </p>
+                
+                <div class="sanskrit-verse">
+                    हनूमत् बलविक्रमं श्रीरामः श्रद्धयान्वितः।<br>
+                    अभयं सर्वभूतानां यः स्वयमेव प्रदायते॥
+                    <div class="verse-translation">
+                        ("Hanuman's strength and courage were admired by Lord Rama, who grants fearlessness to all beings.")
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="journey">
+            <div class="chapter">
+                <h2 class="chapter-title">III. Journey Through Peril: The Manuscripts of Amitav</h2>
+                
+                <h3 class="chapter-subtitle">The Forest of Sundara</h3>
+                <p class="chapter-text">
+                    Here, players face illusion-casting Rakshasas, inspired by the Sundarakanda of the Ramayana. 
+                    The forest's very trees whisper verses:
+                </p>
+                <div class="sanskrit-verse">
+                    मनो जवा मनो युक्तो वायुपुत्रो महाबलः।<br>
+                    रामार्थं कर्मकुशलो दूतः परमधार्मिकः॥
+                    <div class="verse-translation">
+                        ("Quick as the mind, mighty as the wind, Hanuman is skilled in Lord Rama's service, ever righteous.")
+                    </div>
+                </div>
+
+                <h3 class="chapter-subtitle">Mount Huaguo</h3>
+                <p class="chapter-text">
+                    Guarded by corrupted animal spirits, this mountain symbolizes Wukong's mythical origins. At its peak, 
+                    players confront the Shadow Ape King, a twisted manifestation of Wukong, wielding his staff with terrifying precision.
+                </p>
+                [Previous code remains exactly the same until Mount Huaguo section, then continues with:]
+
+                <h3 class="chapter-subtitle">Valley of Eternal Flames</h3>
+                <p class="chapter-text">
+                    A final manuscript is hidden within a valley guarded by the Phoenix General, 
+                    a celestial being manipulated by Kuruomashi.
+                </p>
+            </div>
+        </section>
+
+        <section id="combat">
+            <div class="chapter">
+                <h2 class="chapter-title">IV. Epic Combat Mechanics</h2>
+                <div class="combat-mechanics">
+                    <h3 class="chapter-subtitle">Weapons of Dharma</h3>
+                    <div class="weapons-list">
+                        <div class="weapon-item">
+                            Hanuman's Gada: A mace blessed with celestial power, capable of shattering illusions.
+                        </div>
+                        <div class="weapon-item">
+                            Celestial Sword: Forged by the gods, its strikes resonate with verses from the Ramayana, 
+                            inflicting damage on demonic entities.
+                        </div>
+                        <div class="weapon-item">
+                            Golden Staff: A weapon tied to Wukong, symbolizing his inner conflict.
+                        </div>
+                    </div>
+
+                    <h3 class="chapter-subtitle">Boss Fights</h3>
+                    <div class="weapons-list">
+                        <div class="weapon-item">
+                            The Serpent of Sutras: Players must overcome venomous illusions and decipher verses 
+                            from Bhagavad Gita mid-combat.
+                        </div>
+                        <div class="weapon-item">
+                            The Shadow Ape King: A mirror battle where players experience Wukong's strength 
+                            distorted by arrogance.
+                        </div>
+                        <div class="weapon-item">
+                            Kuruomashi's Final Form: A three-stage celestial battle where Hanuman's divine form 
+                            briefly aids the player.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="climax">
+            <div class="chapter">
+                <h2 class="chapter-title">V. Climax: Revelation and Redemption</h2>
+                
+                <h3 class="chapter-subtitle">Restoring the Truth</h3>
+                <p class="chapter-text">
+                    At the heart of Kuruomashi's lair, players uncover Amitav's restored manuscripts. 
+                    The verses reveal Hanuman's divine essence:
+                </p>
+                <div class="sanskrit-verse">
+                    आञ्जनेयमतिप्राज्ञं वायुपुत्रं महाबलम्।<br>
+                    रामदूतं वरं शूरं हनूमन्तं नमाम्यहम्॥
+                    <div class="verse-translation">
+                        ("I bow to Hanuman, the wise son of Vayu, mighty and brave, the messenger of Rama.")
+                    </div>
+                </div>
+
+                <h3 class="chapter-subtitle">Hanuman's Appearance</h3>
+                <p class="chapter-text">
+                    In the final battle, Hanuman manifests in a radiant form, his mace glowing with divine fire:
+                </p>
+                <div class="sanskrit-verse">
+                    राम काजु कीन्हें बिनु मोहि कहाँ विश्राम।
+                    <div class="verse-translation">
+                        ("Without serving Lord Rama, I have no rest.")
+                    </div>
+                </div>
+                <p class="chapter-text">
+                    He purifies Wukong's essence, revealing him as a distorted reflection of Hanuman's virtues.
+                </p>
+            </div>
+        </section>
+
+        <section id="epilogue">
+            <div class="chapter">
+                <h2 class="chapter-title">VI. Epilogue: A Unified Legacy</h2>
+                <p class="chapter-text">
+                    The game concludes with a grand unification of Indian and Chinese mythologies. 
+                    Hanuman and Wukong are celebrated as facets of the same divine truth, emphasizing 
+                    humility, devotion, and strength.
+                </p>
+                <p class="chapter-text">
+                    The closing scene shows Amitav's manuscripts returned to the Himalayas, their verses 
+                    glowing as a testament to the shared wisdom of humanity:
+                </p>
+                <div class="sanskrit-verse">
+                    हनुमान् अञ्जनासूनुर् वैदेहि सहितं नमामि च।
+                    <div class="verse-translation">
+                        ("I bow to Hanuman, the son of Anjana, and to Sita, forever united with Lord Rama.")
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="gallery" class="gallery">
+            <div class="chapter">
+                <h2 class="chapter-title">Game Gallery</h2>
+                <div class="gallery-container">
+                    <button class="gallery-btn prev">←</button>
+                    <button class="gallery-btn next">→</button>
+                    <!-- Replace src with your actual image paths -->
+                    <img src="SS1.png" alt="Game Screenshot 1" class="gallery-image active">
+                    </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Three.js setup
+        const canvas = document.querySelector('.hero-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+        // Create particles
+        const geometry = new THREE.BufferGeometry();
+        const particles = 5000;
+        const positions = new Float32Array(particles * 3);
+
+        for (let i = 0; i < particles * 3; i++) {
+            positions[i] = (Math.random() - 0.5) * 10;
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        const material = new THREE.PointsMaterial({
+            color: 0xFFD700,
+            size: 0.02,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        const points = new THREE.Points(geometry, material);
+        scene.add(points);
+        camera.position.z = 5;
+
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            points.rotation.x += 0.0005;
+            points.rotation.y += 0.001;
+            renderer.render(scene, camera);
+        }
+
+        // Handle window resize
+        function resizeRenderer() {
+            const width = canvas.clientWidth;
+            const height = canvas.clientHeight;
+            const needResize = canvas.width !== width || canvas.height !== height;
+            
+            if (needResize) {
+                renderer.setSize(width, height, false);
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+            }
+        }
+
+        // Gallery functionality
+        const galleryImages = document.querySelectorAll('.gallery-image');
+        const prevBtn = document.querySelector('.gallery-btn.prev');
+        const nextBtn = document.querySelector('.gallery-btn.next');
+        let currentImageIndex = 0;
+
+        function showImage(index) {
+            galleryImages.forEach(img => img.classList.remove('active'));
+            currentImageIndex = (index + galleryImages.length) % galleryImages.length;
+            galleryImages[currentImageIndex].classList.add('active');
+        }
+
+        prevBtn.addEventListener('click', () => showImage(currentImageIndex - 1));
+        nextBtn.addEventListener('click', () => showImage(currentImageIndex + 1));
+
+        // Intersection Observer for chapter animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.chapter').forEach(chapter => {
+            observer.observe(chapter);
+        });
+
+        // Initialize
+        animate();
+        resizeRenderer();
+        window.addEventListener('resize', resizeRenderer);
+
+        // Smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
